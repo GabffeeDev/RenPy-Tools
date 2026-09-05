@@ -32,7 +32,7 @@ jobs:
       - name: Build executable
         shell: pwsh
         run: |
-          pyinstaller --noconfirm --clean --onefile --windowed --name "RenPy Tools" RenPy-Tools-main/RenPy_Tools.py
+          pyinstaller --noconfirm --clean --onefile --windowed --name "RenPy Tools" RenPy-Tools/RenPy_Tools.py
 
       - name: Package release
         shell: pwsh
