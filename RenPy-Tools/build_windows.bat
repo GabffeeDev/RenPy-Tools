@@ -1,19 +1,39 @@
 @echo off
 setlocal
+cd /d "%~dp0"
 
-echo Instalando PyInstaller...
+set "ICON=..\tool.ico"
+
+echo Instalando dependencias...
 py -m pip install -r requirements.txt
 if errorlevel 1 goto :error
 
+if not exist "%ICON%" (
+    echo.
+    echo ERROR: No se encontro el icono:
+    echo %ICON%
+    goto :error
+)
+
 echo.
 echo Compilando RenPy Tools...
-py -m PyInstaller --noconfirm --clean --onefile --windowed --name "RenPy Tools" RenPy_Tools.py
+
+py -m PyInstaller ^
+    --noconfirm ^
+    --clean ^
+    --onefile ^
+    --windowed ^
+    --name "RenPy Tools" ^
+    --icon "%ICON%" ^
+    RenPy_Tools.py
+
 if errorlevel 1 goto :error
 
 echo.
 echo ==========================================
- echo Compilacion terminada correctamente.
+echo Compilacion terminada correctamente.
 echo El ejecutable esta en: dist\RenPy Tools.exe
+echo El ejecutable incluye el icono: tool.ico
 echo ==========================================
 pause
 exit /b 0
