@@ -25,6 +25,7 @@ py -m PyInstaller ^
     --windowed ^
     --name "RenPy Tools" ^
     --icon "%ICON%" ^
+    --add-data "%ICON%;." ^
     RenPy_Tools.py
 
 if errorlevel 1 goto :error
@@ -33,7 +34,7 @@ echo.
 echo ==========================================
 echo Compilacion terminada correctamente.
 echo El ejecutable esta en: dist\RenPy Tools.exe
-echo El ejecutable incluye el icono: tool.ico
+echo El ejecutable y la ventana incluyen tool.ico
 echo ==========================================
 pause
 exit /b 0
