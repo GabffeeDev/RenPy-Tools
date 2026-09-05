@@ -5,14 +5,21 @@ import re
 # Configuración
 # ------------------------------
 
-# Carpeta raíz del proyecto
-PROJECT = Path(r"E:/RENPY_GAMES//JustABook")
+PROJECT = Path("E:/RENPY_GAMES/Patient_koharu")
 
-# Archivo .rpy que quieres modificar
-TARGET = PROJECT / "game" / "mod_assets" / "definitions" / "definitions.rpy"
+TARGET = PROJECT / "game" / "images" / "definitions.rpy"
+IMAGE_FOLDER = PROJECT / "game" / "images"
 
-# Carpeta de imágenes
-IMAGE_FOLDER = PROJECT / "game" / "mod_assets" / "images"
+
+# ------------------------------
+# Verificar rutas
+# ------------------------------
+
+if not IMAGE_FOLDER.exists():
+    raise FileNotFoundError(f"No existe la carpeta de imágenes:\n{IMAGE_FOLDER}")
+
+if not TARGET.exists():
+    raise FileNotFoundError(f"No existe el archivo destino:\n{TARGET}")
 
 # ------------------------------
 # Generar definiciones
@@ -21,26 +28,19 @@ IMAGE_FOLDER = PROJECT / "game" / "mod_assets" / "images"
 imagenes = []
 
 for archivo in IMAGE_FOLDER.rglob("*"):
-
     if archivo.suffix.lower() not in [".png", ".jpg", ".jpeg", ".webp"]:
         continue
 
-    # Ruta relativa
+    # Ruta relativa a la carpeta de imágenes
     relativa = archivo.relative_to(IMAGE_FOLDER)
-
-    # Nombre de la imagen
-    #
-    # images/yuri/happy.png
-    # ->
-    # image yuri happy
 
     # Nombre del archivo sin extensión
     nombre_png = archivo.stem
 
-    # Ruta relativa al proyecto
-    ruta_png = archivo.relative_to(PROJECT).as_posix()
+    # Ruta relativa a la carpeta game
+    ruta_png = archivo.relative_to(PROJECT / "game").as_posix()
 
-    # Si quieres incluir las carpetas en el nombre de la imagen
+    # Nombre de la imagen (incluye carpetas)
     carpetas = list(relativa.parts[:-1])
 
     if carpetas:
@@ -51,15 +51,11 @@ for archivo in IMAGE_FOLDER.rglob("*"):
     print(f"Nombre: {nombre_imagen}")
     print(f"Ruta: {ruta_png}")
 
-    # Generar la definición
-    imagenes.append(
-        f'image {nombre_imagen} = "{ruta_png}"'
-    )
+    imagenes.append(f'image {nombre_imagen} = "{ruta_png}"')
 
 print(f"Se encontraron {len(imagenes)} imágenes.")
 
 imagenes.sort()
-
 codigo = "\n".join(imagenes)
 
 # ------------------------------
@@ -81,4 +77,4 @@ nuevo = patron.sub(
 TARGET.write_text(nuevo, encoding="utf-8")
 
 print("¡Listo!")
-print(f"Se generaron {len(imagenes)} imágenes.")
+print(f"Se generaron {len(imagenes)} definiciones.")

@@ -21,7 +21,6 @@ if project_dir.name != "game":
 folders = [
     "images/bg",
     "images/cg",
-    "images/sprites",
     "audio/fx",
     "audio/bgm"
 ]
