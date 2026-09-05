@@ -27,13 +27,13 @@ jobs:
         shell: pwsh
         run: |
           python -m pip install --upgrade pip
-          pip install -r RenPy-Tools-main/requirements.txt
+          pip install -r RenPy-Tools/requirements.txt
           pip install pyinstaller
 
       - name: Build executable
         shell: pwsh
         run: |
-          pyinstaller --noconfirm --clean --onefile --windowed --name "RenPy Tools" RenPy-Tools-main/RenPy_Tools.py
+          pyinstaller --noconfirm --clean --onefile --windowed --name "RenPy Tools" --icon "tool.ico" --add-data "tool.ico;." RenPy-Tools/RenPy_Tools.py
 
       - name: Upload Windows build
         uses: actions/upload-artifact@v4
